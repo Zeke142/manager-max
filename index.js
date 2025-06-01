@@ -27,15 +27,20 @@ const github = require('@actions/github');
       const assignees = issue.assignees.map(a => `@${a.login}`).join(', ');
       const labels = issue.labels.map(l => l.name);
 
-      let message = `👋 ${assignees}, this ${isPR ? 'pull request' : 'issue'} has been inactive for ${daysInactive} days.`;
+      // Motivational message
+      let message = `💪 Hey ${assignees}! Just a friendly check-in from Manager Max 🤖\n\n`;
+      message += `This ${isPR ? 'pull request' : 'issue'} has been quiet for **${daysInactive} days**.`;
 
       if (labels.includes('needs-review')) {
-        message += `\n🔍 It needs a review. Can someone take a look?`;
+        message += `\n🔍 It’s tagged \`needs-review\`. Let's give it some love!`;
       } else if (labels.includes('in-progress')) {
-        message += `\n⏳ It's in progress. Any updates?`;
+        message += `\n🛠️ Still \`in-progress\`? You’ve got this—drop an update when you can!`;
+      } else {
+        message += `\n⏳ Time flies! Let’s make sure this is still on your radar.`;
       }
 
-      message += `\n\n- [ ] Please update or comment.\n- [ ] This will be marked stale if inactivity continues.`;
+      message += `\n\n✅ Take action:\n- [ ] Drop a quick update or comment\n- [ ] Or wrap it up if it’s ready to go`;
+      message += `\n\n🚀 Keep going, you’re crushing it! – Manager Max`;
 
       await octokit.rest.issues.createComment({
         owner,
@@ -62,7 +67,7 @@ const github = require('@actions/github');
 
       if (reviews.data.length === 0) {
         const assignees = pr.assignees.map(a => `@${a.login}`).join(', ');
-        const message = `👀 ${assignees}, this PR has no reviewers. Please assign reviewers.`;
+        const message = `👀 ${assignees}, this PR has no reviewers assigned. Tag a reviewer to keep momentum going! 🙌`;
 
         await octokit.rest.issues.createComment({
           owner,
