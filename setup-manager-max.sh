@@ -8,8 +8,8 @@ if [[ $(basename "$PWD") != "$REPO" ]]; then
 fi
 
 # Create necessary folders
-mkdir -p .github/manager-max
 mkdir -p .github/workflows
+mkdir -p .github/manager-max
 
 # Add Manager Max script
 cat <<'EOF' > .github/manager-max/index.js
